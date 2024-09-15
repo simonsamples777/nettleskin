@@ -32,4 +32,8 @@ html {
     margin: 0 auto;
     width: 600px;
   }
-  
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+   
