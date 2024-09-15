@@ -1,0 +1,458 @@
+<html lang="en-US"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+
+    <title>nettle skin</title>
+    
+    <style type="text/css">
+            
+        .Absolute-Center {
+            margin: auto;
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            padding: 0; border-spacing: 60px 0px;
+        }
+
+        body { font-family:arial, sans-serif;font-size:9pt;font-style:normal;letter-spacing:1px; }
+
+        span.title { font-style:italic;font-weight:300; }
+        span.date {}
+        span#stumpyspan { font-style:italic; }
+    
+        table.joelake { margin: 0; }
+        #upcoming { vertical-align:top;padding-right:60px; }
+        #joelake { font-family:arial;vertical-align:bottom;font-size:14pt;font-style:normal;letter-spacing:4px;white-space:nowrap;padding-right:60px; }
+        #caetlynn { font-family:Times,serif;font-size:8pt;font-style:normal; }
+
+        td.content { margin:0px;padding:0px;vertical-align:top; }
+        p { margin: 0px 0px 12px 0px; }
+        h1 { font-family:arial;font-size:14pt;font-style:normal;letter-spacing:2px;font-weight:normal;margin-top:0px; }
+        
+        table#performances { margin: 0; padding: 0; spacing: 0; vertical-align: top;width:1260px; }
+        td.performances { width:400px; vertical-align:top; }
+    
+        a:link { color:black;white-space:nowrap; }
+        a:visited { color:black;white-space:nowrap; }
+        a:hover { color:black;white-space:nowrap }
+
+        a.caetlynn:link { color:black;text-decoration:none; }
+        a.caetlynn:hover { color:black;text-decoration:none; }
+        a.caetlynn:visited { color:black;text-decoration:none; }
+        
+        .audioplayer {
+            width: 100%px;
+            height: 18px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    
+        .play{
+            height:18px;
+            width: 18px;
+            border: none;
+            background: url('play.png') ;
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+            float:left;
+            outline:none;
+        }
+    
+        .stop{
+            height:18px;
+            width: 18px;
+            border: none;
+            background: url('stop.png');
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
+            float:left;
+            outline:none;
+        }
+    
+        #timeline {
+            /*width: 222px;*/
+            width: 90%;
+            height: 18px;
+            margin-left: 8px;
+            margin-top: 0px;
+            float: left;
+            display: block;
+            position: relative;
+        }
+    
+        .track {
+            /*width: 200px;*/
+            width: 100%;
+            height: 1px;
+            margin-top: 9px;
+            margin-right: 0px;
+            background: lightgrey;
+        }
+    
+        .progressBuffering {
+            width: 0px;
+            height: 1px;
+            margin-top: -1px;
+            background: black;
+        }
+    
+        .playhead{
+            width: 1px;
+            height: 17px;
+            margin-top: -9px;
+            background: rgba(0, 0, 0,1);
+            position: relative;
+            left: 0px;
+        }
+        
+    </style>
+    
+    <script>
+        var playingIndex = -1;
+        var music = [];
+        var playhead = [];
+        var progressBar = []
+        var track = [];
+        var pButton = [];
+        
+        function initialize () {
+            var i;
+            
+            for (i = 0; i < 5; i++) {
+                music[i] = document.getElementById('audio_player' + i);
+                playhead[i] = document.getElementById('playhead' + i);
+                progressBar[i] = document.getElementById('progress' + i);
+                track[i] = document.getElementById('track' + i);
+                pButton[i] = document.getElementById('pButton' + i);
+            }
+            
+            for (i = 0; i < 5; i++) {
+                progressBar[i].style.width = 0 + "px";
+            }
+            
+            setStumpy();
+        }
+    
+    
+        function playAudio (index) {
+            if (playingIndex != -1 && index != playingIndex) {
+                music[playingIndex].pause();
+                music[playingIndex].currentTime = 0;
+                music[playingIndex].ontimeupdate = function() {};
+                playhead[playingIndex].style.left = '0px';
+                pButton[playingIndex].className = "";
+                pButton[playingIndex].className = "play";
+            }
+        
+            playingIndex = index;
+        
+            music[playingIndex].ontimeupdate = function() { updatePlayHead(playingIndex) };
+            music[playingIndex].onprogress = function() { updateProgress(playingIndex) };
+        
+            if (music[playingIndex].paused) {
+                music[playingIndex].play();
+                pButton[playingIndex].className = "";
+                pButton[playingIndex].className = "stop";
+                updateProgress (playingIndex);
+            } else {
+                music[playingIndex].pause();
+                music[playingIndex].currentTime = 0;
+                pButton[playingIndex].className = "";
+                pButton[playingIndex].className = "play";
+            }
+        }
+    
+        function updatePlayHead (index) {
+            var playHeadPosition = music[index].currentTime / music[index].duration;
+            playhead[index].style.left = (track[index].offsetWidth * playHeadPosition) + "px";
+        }
+    
+        function updateProgress (index)
+        {
+            if (music[index].readyState === 4) {
+                var bufferedEnd = music[index].buffered.end(0);
+                var bufferedPercent = bufferedEnd / music[index].duration;
+                progressBar[index].style.width = (track[index].offsetWidth * bufferedPercent) + "px";
+            }
+        }
+    
+        function setStumpy()
+        {
+            var stumpies = ["2", "5", "6", "7", "14", "21", "23"];
+            var index = Math.floor(Math.random()*stumpies.length);
+            document.getElementById("stumpy").src="stumpy/" + stumpies[index] + ".jpg";
+            document.getElementById("stumpyspan").innerHTML = "Stumpy " + stumpies[index];
+        }
+    
+    </script>
+    
+</head>
+
+<body onload="initialize();">
+    <audio id="audio_player0" preload="metadata">
+        <source src="media/almost_there.mp3">
+        Your browser does not support this element.
+    </audio>
+    <audio id="audio_player1" preload="metatdata">
+        <source src="media/signals.mp3">
+        Your browser does not support this element.
+    </audio>
+    <audio id="audio_player2" preload="metadata">
+        <source src="media/vyssan_lull.mp3">
+        Your browser does not support this element.
+    </audio>
+    <audio id="audio_player3" preload="metadata">
+    <source src="media/concerto.mp3">
+    Your browser does not support this element.
+    </audio>
+    <audio id="audio_player4" preload="metadata">
+    <source src="media/i_am_a_clock.mp3">
+    Your browser does not support this element.
+    </audio>
+
+
+<table class="Absolute-Center"><tbody><tr><td class="content">
+
+<table>
+    <tbody><tr>
+        <td></td>
+        <td rowspan="2"><img id="stumpy" style="width:400px;height:400px" src="stumpy/7.jpg"></td>
+    </tr>
+    <tr>        <td id="joelake" style="text-align:right;">Joseph Andrew Lake</td>
+</tr>
+    <tr>
+        <td>
+        </td><td id="caetlynn"><a class="caetlynn" href="http://www.caetlynnbooth.com/">Caetlynn Booth<br>
+            <span id="stumpyspan">Stumpy 7</span><br>
+            Watercolor and gouache on paper<br>
+            10" x 10"</a></td>
+    </tr>
+</tbody></table>
+
+</td>
+
+
+
+<td class="content" style="min-width:400px;">
+    <h1>Upcoming</h1>
+    
+    <p><span class="title">“I am a clock”</span> <span class="date"> (2018)</span>
+        <br>For solo violoncello
+        <br>Commissioned by <a href="http://christina-meissner.de">Christina Meißner</a>
+        <br>March, 9 2019, 18:30, <a href="“https://www.kgm-moers.de”">Evangelische Kirchengemeinde Moers</a>, Dorfkirche, Moers, Germany
+        <br>March 10, 2019, 16:30, <a href="“http://www.barockkirche-zwillbrock.de/start-d/“">St. Francziskus Barockkirche Zwillbrock</a>, Vreden, Germany
+        <br>March 14, 2019 um 19:00, <a href="“http://kulturkirche-heiligkreuz.de”">Kulturkirche Heilig Kreuz</a>, Bottrop, Germany
+        <br>March 15, 2019, 18:15, <a href="“https://www.antonitercitykirche.de”">AntoniterCityKirche</a>, Cologne, Germany
+        <br>March 16, 2019, 17:00, <a href="“https://kirche-orsoy.de”">Evangelische Kirchengemeinde Orsoy</a>, Rheinberg, Germany
+        <br>March 17, 2019, 16:00, <a href="“https://www.propstei-werl.de”">Probsteikirche St. Walburga</a>, Werl, Germany
+        </p>
+        
+        <p><span class="title">New Work</span> <span class="date"> (2019)</span>
+        <br>For violin, violoncello, and piano
+        <br>Commissioned by <a href="“https://www.musikfabrik.eu”">Ensemble Musikfabrik</a>
+        <br>April 7, 2019, <a href="“https://www.musikfabrik.eu/de/kalender/piano-forte-insideout-07042019?pager=2019--2020”">Piano - Forte - Inside Out</a>, <a href="“”">PACT-Zollverein</a>, Essen, Germany
+        <br>April 8, 2019, <a href="“https://www.musikfabrik.eu/de/kalender/montagskonzert-piano-forte-insideout-08042019?pager=2019--2020”">Piano - Forte - Inside Out</a>, Studio des Ensemble Musikfabrik, Cologne, Germany
+        </p>
+</td>
+
+<td class="content" style="white-space:nowrap;">
+    
+    <h1>Recordings</h1>
+    
+    <p><span class="title">"I am a clock"</span><span class="date"> (2018)</span><br>
+    For solo violoncello<br>
+    Christina Meißner, November 2018, Løgumkloster, Denmark<br>
+    
+    </p><div id="audioplayer4" class="audioplayer">
+        <button id="pButton4" class="play" onclick="playAudio(4)"></button>
+        <div id="timeline">
+            <div id="track4" class="track"></div>
+            <div id="progress4" class="progressBuffering" style="width: 0px;"></div>
+            <div id="playhead4" class="playhead"></div>
+        </div>
+    </div>
+
+    <p><span class="title">Concerto</span><span class="date"> (2018)</span><br>
+    For prepared piano and ensemble<br>
+    Ensemble Musikfabrik, February 2018, Cologne, Germany<br>
+
+    </p><div id="audioplayer3" class="audioplayer">
+        <button id="pButton3" class="play" onclick="playAudio(3)"></button>
+        <div id="timeline">
+            <div id="track3" class="track"></div>
+            <div id="progress3" class="progressBuffering" style="width: 0px;"></div>
+            <div id="playhead3" class="playhead"></div>
+        </div>
+    </div>
+    
+    <p><span class="title">"Vyssan Lull"</span><span class="date"> (2014)</span><br>
+    For clarinet, percussion, and double bass<br>
+    Ensemble Etc., October 2014, San Diego, USA<br>
+    
+    </p><div id="audioplayer2" class="audioplayer">
+        <button id="pButton2" class="play" onclick="playAudio(2)"></button>
+        <div id="timeline">
+            <div id="track2" class="track"></div>
+            <div id="progress2" class="progressBuffering" style="width: 0px;"></div>
+            <div id="playhead2" class="playhead"></div>
+        </div>
+    </div>
+    
+    <br>
+    <p style="padding-top:0px;"><span class="title">"Signals of Half-Occulted Senses"</span><span class="date"> (2012/13)</span><br>
+    For orchestra<br>
+    Dresdner Philharmonie, January 2013, Dresden, Germany<br>
+    
+    </p><div id="audioplayer1" class="audioplayer">
+        <button id="pButton1" class="play" onclick="playAudio(1)"></button>
+        <div id="timeline">
+            <div id="track1" class="track"></div>
+            <div id="progress1" class="progressBuffering" style="width: 0px;"></div>
+            <div id="playhead1" class="playhead"></div>
+        </div>
+    </div>
+    
+    <br>
+    <p style="padding-top:0px;"><span class="title">"Almost There"</span><span class="date"> (2013)</span><br>
+    For prepared piano and percussion<br>
+    Ensemble Recherche, September 2013, Dresden, Germany<br>
+    
+    </p><div id="audioplayer0" class="audioplayer">
+        <button id="pButton0" class="play" onclick="playAudio(0)"></button>
+        <div id="timeline">
+            <div id="track0" class="track"></div>
+            <div id="progress0" class="progressBuffering" style="width: 0px;"></div>
+            <div id="playhead0" class="playhead"></div>
+        </div>
+    </div>
+    
+    <br>
+    <p>Complete recordings available at <a href="https://soundcloud.com/josephandrewlake">soundcloud.com/josephandrewlake</a>.
+    
+</p></td>
+    
+<td class="content" style="min-width:400px;">
+        
+        <h1>Biography</h1>
+        
+        <p>Joseph Andrew Lake (b. 1979, San Francisco, California) received a B.A.,
+        <i>Magna cum laude</i>, in Music and Classics from Harvard University (2002), an M.F.A. in Experimental Sound Practices from the California Institute of the Arts (2004), and a PhD from the University at Buffalo in the composition studio of David Felder.  In 2013 he completed a Meisterschüler in Composition with Mark Andre at the Hochschule für Musik Carl Maria von Weber Dresden with support of  a Fulbright Scholarship (2011—2012) and DAAD Stipendium (2012—2013).
+        <br><br>
+        
+        He has participitated in the Milwaukee Symphony Orchestra Composer Institute, Schloss Solitude Summer Academy, Acanthes Atelier de Compositions, June in Buffalo Festival, Donaueschingen "Off-Programm", Dogstar Orchestra Festival, Center for Experiments in Art, Information, and Technology (CEAIT) Festival, and StallArte Festival. His music has been played by the Milwaukee Symphony Orchestra, Dresdner Philharmonie, Ensemble Recherche, Ensemble musikFabrik, Kammerphilharmonie Hamburg, Ensemble SurPlus, JACK Quartet, Norrbotten NEO, New York New Music Ensemble, Ensemble L'Autre Monde, Cikada Ensemble, New Century Players, among others.<br><br>
+        
+        Joseph Andrew Lake currently lives on the the island of Gotland in Sweden with his wife and two little children.  He teaches harmony and ear training at the <a href="https://gotlandstonsattarskola.com/en">Gotland Tonsättarskola</a>.
+    
+        </p>
+
+</td>
+<td class="content">
+    <table id="performances"><tbody><tr>
+        <td class="performances" style="padding-right:30px"><h1>Performances</h1>
+            
+            <p><u>2018</u>
+            
+            </p><p><span class="title">“I am a clock”</span> <span class="date"> (2018)</span>
+            <br>For solo violoncello
+            <br>Commissioned by <a href="http://christina-meissner.de">Christina Meißner</a>
+            <br>November 25, 2018, 16:00, <a href="https://www.visitdenmark.de/de/denmark/logumkloster-kirche-und-kloster-gdk610667">Løgumkloster Kirke</a>, Løgumkloster, Denmark
+            </p>
+            
+            <p><span class="title">Concerto</span> <span class="date"> (2018)</span>
+            <br>For prepared piano and ensemble
+            <br>Commissioned by <a href="http://www.musikfabrik.eu">Ensemble Musikfabrik</a> and <br><a href="http://www.kunststiftung-nrw.de/de/home/">Kunststiftung NRW</a>
+            <br><a href="http://www.musikfabrik.eu/de/kalender/musikfabrik-im-wdr-65-25022018?pager=2018--2019">Musikfabrik im WDR 65 | Gegendarstellung</a>
+            <br>February 25, 2018, 20:00, WDR Funkhaus am Wallrafplatz, Cologne, <a href="http://www.musikfabrik.eu/de/ensemble/mitglieder/ulrich-loeffler">Ulrich Löffler</a> (soloist), Ensemble Musikfabrik, Peter Rundel (cond.)
+            <br>June 26, 2018, 20:05, <a href="https://www1.wdr.de/radio/wdr3/programm/sendungen/wdr3-konzert/neue-musik-126.html">Musikfabrik 65 - Gegendarstellung</a>, radio broadcast by WDR3
+            </p>
+            
+            <p><u>2014</u>
+            
+            </p><p><span class="title">"Strange how the scene (almost nothing..."</span> <span class="date"> (2008)</span>
+            <br>For flute, bass clarinet, piano, violin, viola, and violoncello
+            <br>September 29, 2014, 21:05, Ensemble Musikfabrik, radio broadcast by Deutschlandfunk
+            </p>
+            
+            
+            <p><span class="title">"Vyssan Lull"</span> <span class="date"> (2014)</span>
+            <br>For clarinet, percussion, and double bass
+            <br>Commisioned by <a href="http://ens-etc.org">Ensemble et cetera</a>
+            <br>October, 10 2014, 19:00, Conrad Prebys Music Center - Recital Hall, University of California, San Diego
+            </p>
+            
+            <p><span class="title">"Almost There"</span> <span class="date"> (2013)</span>
+            <br>For prepared piano and percussion
+            <br>October 16, 2014, 20:00, <a href="http://ensemble-recherche.de/&lrm;">Ensemble Recherche</a>, <a href="http://www.hellerau.org">Hellerau</a>, Dresden, Germany
+            </p>
+            
+            <p><span class="title">"Almost There" (b)</span> <span class="date"> (2014)</span>
+            <br>For prepared piano and prepared harp
+            <br>June 23, 2014, 19:30, <a href="http://lisastreich.se">Lisa Streich</a> &amp; Karolina Provatorova, <a href="http://www.sankt-peter-koeln.de/wp/">Sankt Peter Kirche</a>, Cologne, Germany
+            </p>
+        </td><td class="performances"><p><span class="title">"Almost There" (b)</span> <span class="date"> (2014)</span>
+            <br>For prepared piano and prepared harp
+            <br>June 4, 2014, 19:00, Lisa Streich &amp; Ewa Matejewska, Hochschule für Musik und Tanz Köln am Standort Wuppertal, Wuppertal, Germany
+            </p>
+            
+            <p><span class="title">"Almost There"</span> <span class="date"> (2013)</span>
+            <br>For prepared piano and percussion
+            <br>May 5, 2014, 20:00, <a href="http://www.mondayeveningconcerts.org">Monday Evening Concerts</a>, <a href="http://www.mondayeveningconcerts.org/events/050514.html">New Voices II</a>, <br>Los Angeles, California
+            </p>
+            
+            <p><span class="title">"Strange how the scene (almost nothing..."</span> <span class="date"> (2008)</span>
+            <br>For flute, bass clarinet, piano, violin, viola, and violoncello
+            <br><a href="http://musikfabrik.eu">Ensemble musikFabrik</a>, Enno Poppe (conductor)
+            <br>April 25, 2014, 19:00, Nordrhein-Westfälische Akademie der Wissenschaften und der Künste, Düsseldorf, Germany
+            <br>May 15, 2014, 19:00, Vertretung des Landes NRW beim Bund - Europasaal, Berlin, Germany
+            
+            </p><p><u>2013</u></p>
+            <p><span class="title">"Signals of half-occulted senses"</span> <span class="date"> (2012/13)</span>
+            <br>For orchestra
+            <br>Milwaukee Symphony Orchestra, <a href="http://www.mso.org/education_community/composer_institute">MSO Composer Institute</a>, <br>University of Wisconsin at Milwaukee Zelazo Center for the Performing Arts, Milwaukee Wisconsin
+            <br>November 7, 2013, 10:30 - 13:00, Open Rehearsal
+            <br>November 9, 2013, 13:30 - 15:30, Open Rehearsal
+            <br>November 9, 2013, 19:30, Concert
+            </p>
+            <p><span class="title">"Almost There"</span> <span class="date"> (2013)</span>
+            <br>For prepared piano and percussion
+            <br>September 21, 2013, 20:00, Ensemble Recherche, Morat-Institut, Freiburg, Germany
+            </p>
+        </td>
+        <td class="performances" style="padding-left:30px">
+            <p><span class="title">Fäbodpsalm</span> <span class="date"> (2013)</span>
+            <br>For string orchestra
+            <br>Commissioned by the Kammerphilharmonie Hamburg
+            <br><span style="padding-left:0px">July 28, 2013, 18.00, Kirche St. Petri und Pauli in Bergedorf/Hamburg, Germany</span>
+            <br><span style="padding-left:0px">July 29, 2013, 20.00, Kirche St. Michaelis, Hamburg, Germany</span>
+            <br><span style="padding-left:0px">July 30, 2013, 20.00, Kirche St. Laurentius, Schönberger Musiksommer Festival, Schönberg (Lübeck), Germany</span>
+            </p>
+            
+            <p><span class="title">Two Robots Discuss the Possibilities of a Transmachinist, Postdigital Future</span> <span class="date"> (2004)</span>
+            <br>For broken wave table oscillator and Tschaikovsky <br>orchestral samples
+            <br>May 23, 2013, Enclaves Sitiados festival, Mexico City, Mexico</p>
+            
+            <p><span class="title">"Signals of half-occulted senses"</span> <span class="date"> (2012)</span>
+            <br>For orchestra
+            <br>January 28, 2013, Dresdner Philharmonie, Dresden, Germany
+        </p></td></tr>
+    </tbody></table>
+</td>
+
+<td class="content" style="min-width:400px">
+    
+    <h1>Contact</h1>
+    
+    <p>josephandrewlake@gmail.com
+
+</p></td>
+
+</tr></tbody></table>
+
+
+
+
+
+</body></html>
