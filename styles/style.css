@@ -1,6 +1,6 @@
 html {
-    font-size: 10px; /* px means "pixels": the base font size is now 10 pixels high */
-    font-family: "Open Sans", sans-serif; /* this should be the rest of the output you got from Google Fonts */
+    font-size: 10px; 
+    font-family: "Open Sans", sans-serif; 
     background-color: black;
     color: rgb(251, 242, 227);
   }
@@ -32,8 +32,13 @@ html {
     margin: 0 auto;
     width: 600px;
   }
-  a {
-    color: inherit;
-    text-decoration: inherit;
+  button {
+    background-color: rgb(59, 41, 1);
+    border: none;
+    color: rgb(251, 242, 227);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
   }
-   
