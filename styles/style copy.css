@@ -1,0 +1,75 @@
+html {
+    font-size: 10px; 
+    font-family: "Open Sans", sans-serif; 
+    background-color: black;
+    color: rgb(251, 242, 227);
+  }
+  
+  h1 {
+    font-size: 60px;
+    text-align: center;
+    margin: 0;
+    padding: 20px 0;
+    color: rgb(251, 242, 227);
+    text-shadow: 3px 3px 1px black;
+    
+  }
+
+  body {
+    background-image: url('images/cd1ver8.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+  }
+  
+  .Absolute-Center {
+    margin: auto;
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    padding: 0; border-spacing: 60px 0px;
+}
+  
+  td.content { margin:0px;padding:0px;vertical-align:top; word-wrap:break-word; line-height: 2;}
+  
+  table#nettleskin {white-space:nowrap;padding-right:60px; }
+  td.nettleskin {width:400px; margin-top: 60px; display:block; word-wrap:break-word;}
+
+  .dreams {padding-right: 60px;}
+  table#dreams { margin: 0; padding: 0; vertical-align: top; }
+  td.dreams{ width:400px; margin-top: 60px; display:block; word-wrap:break-word;}
+
+  .narrow
+  table#narrow{margin: 0; padding: 0; vertical-align: top;width:1260px;}
+  td.narrow{ width:400px; margin-top: 60px; display:block; word-wrap:break-word; }
+
+  p,
+  li {
+    font-size: 16px;
+    line-height: 2;
+    letter-spacing: 1px;
+    align-content: left;
+    margin: 0px 0px 12px 0px;
+  }
+
+  body {
+    overflow-x:scroll;
+    overflow-y: hidden;
+
+  }
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  button {
+    background-color: rgb(59, 41, 1);
+    border: none;
+    color: rgb(251, 242, 227);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+
