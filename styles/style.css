@@ -23,4 +23,9 @@ html {
     text-align: left;
   }
   
+  a {
+    text-decoration: none;
+    color : rgb(251, 242, 227);
+  }
+  
   

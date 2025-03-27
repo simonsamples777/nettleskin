@@ -10,15 +10,27 @@
   <body>
     <div class="image">
       <a href="https://nettleskin.bandcamp.com"><img src="images/cd1ver8.jpg" alt="nettle skin" width="100%" height="100%"/></a>
-      <p>Hur konstigt människobabbel låter på avstånd. Ibland låser det upp sig av rena slumpen på något konstigt ljud. t t t t t t t t t t t.</p>
+      <a href="https://youtu.be/LAj3JgCE97c"><p>Hur konstigt människobabbel låter på avstånd. Ibland låser det upp sig av rena slumpen på något konstigt ljud. t t t t t t t t t t t.</p>
       <p>Gick ner till bergen för att öva på att glida. Jag kan hoppa väldigt högt, och när jag väl är uppe så har jag lärt mig att hålla altituden någorlunda bra. Men jag kan inte ta mig högre upp än jag är, förutom om det är mycket stark vind. Nerförsbackar är perfekta ställen att glida. Jag börjar hoppa och glider förbi invånarna. Två andra flickor ser mig glida och inser för första gången möjligheten att de också kan glida. Vi glider.</p> 
       <p>Korsfästelsen skulle äga rum utanför tullhuset, precis vid universitetet. Kände ingen rädsla under hela processen. Dödstyst, som under glas.</p>  
       <p>Klädd som ett litet barn klätt i ljusblått och med vit peruk. Det kan ha haft något att göra med såpbubblor. Fann säkerhet med dessa tre bevis: de skulle bevisa min oskuld vid rättegången.</p>
+    </a>
     </div>
-    <audio autoplay>
-      <source src="/audio/gagak.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-    </audio>
-  </body>
+    <audio id="myAudio" autoplay muted loop>
+      <source src="/audio/gagak.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+  </audio>
   
+  </body>
+  <script>
+    function unmuteAudio() {
+        let audio = document.getElementById("myAudio");
+        if (audio.muted) {
+            audio.muted = false;
+            audio.play();
+        }
+        document.removeEventListener("click", unmuteAudio);
+    }
+    document.addEventListener("click", unmuteAudio);
+  </script>
 </html>
