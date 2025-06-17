@@ -14,8 +14,8 @@ document.getElementById("replaceTextButton").addEventListener("click", function 
     audio.load();
     audio.play();
   // Change the links
-    document.getElementById("imageLink").setAttribute("href", "https://bandcamp.com/");
-    document.getElementById("textLink").setAttribute("href", "https://www.youtube.com/");
+    document.getElementById("imageLink").setAttribute("href", "https://nettleskin.bandcamp.com/album/nettle-skin-2");
+    document.getElementById("textLink").setAttribute("href", "https://www.youtube.com/watch?v=On-97XOUOPo&pp=0gcJCdQJAYcqIYzv");
     console.log("Links updated!");
 
   // Update text
@@ -27,7 +27,7 @@ document.getElementById("replaceTextButton").addEventListener("click", function 
   // Alternate image only if not at the last text
   if (currentIndex < textOptions.length) {
     if (isOriginalImage) {
-      imageElement.src = "images/album2omslaggrejande.jpg";
+      imageElement.src = "images/album2real_01.webp";
     } else {
       imageElement.src = "images/cd1ver8.jpg";
     }
