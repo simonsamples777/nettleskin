@@ -9,14 +9,17 @@ let isOriginalImage = true;
 document.getElementById("replaceTextButton").addEventListener("click", function () {
   const textElement = document.getElementById("text");
   const imageElement = document.querySelector(".image img");
+  const buttonElement = document.getElementById("replaceTextButton");
+
   var audio = document.getElementById("myAudio");
-    audio.src = "/audio/woodwind.mp3";
-    audio.load();
-    audio.play();
+  audio.src = "/audio/woodwind.mp3";
+  audio.load();
+  audio.play();
+
   // Change the links
-    document.getElementById("imageLink").setAttribute("href", "https://nettleskin.bandcamp.com/album/nettle-skin-2");
-    document.getElementById("textLink").setAttribute("href", "https://www.youtube.com/watch?v=On-97XOUOPo&pp=0gcJCdQJAYcqIYzv");
-    console.log("Links updated!");
+  document.getElementById("imageLink").setAttribute("href", "https://nettleskin.bandcamp.com/album/nettle-skin-2");
+  document.getElementById("textLink").setAttribute("href", "https://www.youtube.com/watch?v=On-97XOUOPo&pp=0gcJCdQJAYcqIYzv");
+  console.log("Links updated!");
 
   // Update text
   if (currentIndex < textOptions.length) {
@@ -32,5 +35,10 @@ document.getElementById("replaceTextButton").addEventListener("click", function 
       imageElement.src = "images/cd1ver8.jpg";
     }
     isOriginalImage = !isOriginalImage; // Toggle the image state
+  }
+
+  // Hide the button when the last text is displayed
+  if (currentIndex === textOptions.length) {
+    buttonElement.style.display = "none";
   }
 });
