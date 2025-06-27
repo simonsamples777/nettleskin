@@ -55,7 +55,7 @@ body {
   align-items: flex-start;
 }
 
-/* Responsive: stack albums vertically on small screens */
+/* stack albums vertically on small screens */
 @media (max-width: 900px) {
   body {
     flex-direction: column;
@@ -87,3 +87,4 @@ body {
   display: block;
   margin: 0 auto;
 }
+
