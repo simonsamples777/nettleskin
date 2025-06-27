@@ -40,4 +40,17 @@ html {
  }
   button:hover {
     background-color: rgb(35, 35, 35);
- } 
+ }
+ 
+ .album {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 10px;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}

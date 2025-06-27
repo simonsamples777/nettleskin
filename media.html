@@ -1,0 +1,66 @@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>nettle skin</title>
+    <link href="styles/style.css" rel="stylesheet" />
+    <link href="styles/music.css" rel="musicstylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="album">
+    <img src="images/cd1ver8.jpg" alt="nettle skin" width="500px" /> 
+    <button onclick="toggleAudio('audio1', this)">Play/Pause Album 1</button>
+    <span id="time1">0:00 / 0:00</span>
+    <audio id="audio1" src="audio/gagak.mp3"></audio>
+  </div>
+  <div class="album">
+    <img src="images/album2real_01.webp" alt="nettle skin 2" width="500px" /> 
+    <button onclick="toggleAudio('audio2', this)">Play/Pause Album 2</button>
+    <span id="time2">0:00 / 0:00</span>
+    <audio id="audio2" src="audio/woodwind.mp3"></audio>
+  </div>
+
+  <script>
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return m + ":" + (s < 10 ? "0" : "") + s;
+    }
+
+    function updateTime(audioId, timeId) {
+      const audio = document.getElementById(audioId);
+      const timeSpan = document.getElementById(timeId);
+      timeSpan.textContent = formatTime(audio.currentTime) + " / " + formatTime(audio.duration || 0);
+    }
+
+    function toggleAudio(audioId, btn) {
+      const audio = document.getElementById(audioId);
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = "Pause Album " + (audioId === "audio1" ? "1" : "2");
+      } else {
+        audio.pause();
+        btn.textContent = "Play Album " + (audioId === "audio1" ? "1" : "2");
+      }
+    }
+
+    // Update playti§me display for both audio elements
+    const audio1 = document.getElementById('audio1');
+    const audio2 = document.getElementById('audio2');
+
+    audio1.addEventListener('timeupdate', function() {
+      updateTime('audio1', 'time1');
+    });
+    audio1.addEventListener('loadedmetadata', function() {
+      updateTime('audio1', 'time1');
+    });
+
+    audio2.addEventListener('timeupdate', function() {
+      updateTime('audio2', 'time2');
+    });
+    audio2.addEventListener('loadedmetadata', function() {
+      updateTime('audio2', 'time2');
+    });
+  </script>
+</body>
