@@ -1,40 +1,81 @@
+
 <!doctype html>
 <html lang="en-US">
-  <head>
+
+<video autoplay muted loop id="myVideo">
+  <source src="/video/woundelipsesb4webm.webm" type="video/webm">
+</video>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>nettle skin</title>
-    <link href="styles/style.css" rel="stylesheet" />
+    <link href="styles/music.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
-  </head>
-  <body>
-    <div class="image">
-      <a id="imageLink" href="https://nettleskin.bandcamp.com"><img src="images/cd1ver8.jpg" alt="nettle skin" width="100%" height="100%"/></a>
-      <a id="textLink" href="https://youtu.be/LAj3JgCE97c">
-      <p id="text">Korsfästelsen skulle äga rum utanför tullhuset, precis vid universitetet. Kände ingen rädsla under hela processen. Dödstyst, som under glas. Klädd som ett litet barn i ljusblått och med vit peruk. Det kan ha haft något att göra med såpbubblor. Fann säkerhet med dessa tre bevis: de skulle bevisa min oskuld vid rättegången. Jag gick ner till bergen för att öva på att glida. Jag kan hoppa väldigt högt, och när jag väl är uppe så har jag lärt mig att hålla altituden någorlunda bra. Men jag kan inte ta mig högre upp än jag är, förutom om det är mycket stark vind. Nerförsbackar är perfekta ställen att glida. Jag börjar hoppa och glider förbi invånarna. Två andra flickor ser mig glida och inser för första gången möjligheten att de också kan glida. Samtalar med den ena. Plötsligt flöt jag uppåt, emot geometriska figurer. Vindens visslande precis som strupsång. 
-       Till slut liggandes i en säng med ett hundratal människor som alla kramar mig. Jag måste inte längre.</p>  
-    </a>
-    </div>
-   
-    <button id="replaceTextButton">次</button>
-    <br> 
-    <a href="media.html" id="mediaPageLink" style="display:inline-block; margin-top:20px; text-decoration: underline !important;">inspelningar</a>
+</head>
 
-    <audio id="myAudio" autoplay muted loop>
-      <source src="/audio/gagak.mp3" type="audio/mp3">
-      Your browser does not support the audio element.
-    </audio>
-  </body>
-  <script src="scripts/main.js"></script>
+<body>
+  <div class="album">
+    <button onclick="toggleAudio('audio2', this)">氷河</button>
+    <span id="time2">0:00 / 0:00</span>
+    <audio id="audio2" src="audio/ns2.mp3"></audio>
+    <img src="images/album2.webp" alt="nettle skin 2" width="500px" /> 
+    <a id="textLink" href="https://www.youtube.com/watch?v=On-97XOUOPo&pp=0gcJCdQJAYcqIYzv">
+        <p id="text2">När klockorna ringde ljusnade jag. Kroppsförvisad men flytande. Efter att ha nedskjutit en ensam vinterduva. Som kanske var min mamma. Och att återvänt hem, doftande av krutrök. Misslyckad till och med att bli en skådespelerska. Så satte jag mig upp på huk. Jag hör min tyngd mot isen i balansjusteringarna för att behålla mitt huksittande. Och lyssnar bara efter ljudet emot min kind. Känslan som om jag hade kunnat stanna här för evigt. Jag ser regndropparna emot isens yta. Kom ihåg en aning av något jag tänkte tidigare men inte kom ihåg. Ögon allt för dyra att köpa… Oskulder liknade med grodor… Och is tappar. Särskrivet. Fler och fler röda frukter faller ut och sprids omkring. Så upphetsad, fortsätter bara gräva ut fler och samla dem i min famn. Jag är så glad att jag inte behöver tänka på något annat. Men kan inte samla alla. Minnesägg som utdrivna och strödda allestädes. 
+        En dag faller de nog någonstans. Sedan håller de tyst.</p></a>
+  </div>
+  <div class="album">
+    <button onclick="toggleAudio('audio1', this)">傷</button>
+    <span id="time1">0:00 / 0:00</span>
+    <audio id="audio1" src="audio/ns1.mp3"></audio>
+    <img src="images/album1.webp" alt="nettle skin" width="500px" /> 
+    <a id="textLink1" href="https://youtu.be/LAj3JgCE97c">
+        <p id="text1">Korsfästelsen skulle äga rum utanför tullhuset, precis vid universitetet. Kände ingen rädsla under hela processen. Dödstyst, som under glas. Klädd som ett litet barn i ljusblått och med vit peruk. Det kan ha haft något att göra med såpbubblor. Fann säkerhet med dessa tre bevis: de skulle bevisa min oskuld vid rättegången. Jag gick ner till bergen för att öva på att glida. Jag kan hoppa väldigt högt, och när jag väl är uppe så har jag lärt mig att hålla altituden någorlunda bra. Men jag kan inte ta mig högre upp än jag är, förutom om det är mycket stark vind. Nerförsbackar är perfekta ställen att glida. Jag börjar hoppa och glider förbi invånarna. Två andra flickor ser mig glida och inser för första gången möjligheten att de också kan glida. Samtalar med den ena. Plötsligt flöt jag uppåt, emot geometriska figurer. Vindens visslande precis som strupsång. 
+        Till slut liggandes i en säng med ett hundratal människor som alla kramar mig. Jag måste inte längre.</p> </a>
+  </div>
+
   <script>
-    function unmuteAudio() {
-        let audio = document.getElementById("myAudio");
-        if (audio.muted) {
-            audio.muted = false;
-            audio.play();
-        }
-        document.removeEventListener("click", unmuteAudio);
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return m + ":" + (s < 10 ? "0" : "") + s;
     }
-    document.addEventListener("click", unmuteAudio);
+
+    function updateTime(audioId, timeId) {
+      const audio = document.getElementById(audioId);
+      const timeSpan = document.getElementById(timeId);
+      timeSpan.textContent = formatTime(audio.currentTime) + " / " + formatTime(audio.duration || 0);
+    }
+
+    function toggleAudio(audioId, btn) {
+      const audio = document.getElementById(audioId);
+      if (audio.paused) {
+        audio.play();
+        //btn.textContent = "Pause Album " + (audioId === "audio1" ? "1" : "2");
+      } else {
+        audio.pause();
+        //btn.textContent = "Play Album " + (audioId === "audio1" ? "1" : "2");
+      }
+    }
+
+    // Update playti§me display for both audio elements
+    const audio1 = document.getElementById('audio1');
+    const audio2 = document.getElementById('audio2');
+
+    audio1.addEventListener('timeupdate', function() {
+      updateTime('audio1', 'time1');
+    });
+    audio1.addEventListener('loadedmetadata', function() {
+      updateTime('audio1', 'time1');
+    });
+
+    audio2.addEventListener('timeupdate', function() {
+      updateTime('audio2', 'time2');
+    });
+    audio2.addEventListener('loadedmetadata', function() {
+      updateTime('audio2', 'time2');
+    });
   </script>
+</body>
+
 </html>
