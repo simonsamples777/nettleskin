@@ -1,5 +1,5 @@
 html {
-    font-size: 12px; 
+    font-size: 14px; 
     font-size: 1vh;
     
     font-family: "Open Sans", sans-serif; 
@@ -43,9 +43,16 @@ html {
  }
  
  .album {
+  width: 500px;
+  max-width: 90vw;
+  min-width: 250px;
   display: inline-block;
   vertical-align: top;
-  margin: 0 10px;
+  margin: 0 10px 40px 10px;
+  text-align: left;
+  box-sizing: border-box;
+  border-radius: 12px;
+  padding: 20px;
 }
 
 body {
@@ -103,24 +110,39 @@ body {
 }
 .video-foreground,
 .video-background iframe {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+  z-index: -99;
   pointer-events: none;
+  background: #000;
+  object-fit: cover; /* This will crop the video to fill the screen */
+}
+
+/* Remove any aspect-ratio hacks for video-foreground and iframe */
+.video-background iframe {
+  aspect-ratio: unset !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
+  object-fit: cover !important;
 }
 
 @media (min-aspect-ratio: 16/9) {
   .video-foreground {
-    height: 300%;
-    top: -100%;
+    height: 100vh;
+    top: 0;
   }
 }
 @media (max-aspect-ratio: 16/9) {
   .video-foreground {
-    width: 300%;
-    left: -100%;
+    width: 100vw;
+    left: 0;
   }
 }
 @media all and (max-width: 600px) {
