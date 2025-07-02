@@ -112,7 +112,7 @@ body {
 .video-background iframe {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
   width: 100vw;
   height: 100vh;
   min-width: 100vw;
@@ -124,14 +124,12 @@ body {
 }
 
 /* Remove any aspect-ratio hacks for video-foreground and iframe */
-.video-background iframe {
-  aspect-ratio: unset !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  min-width: 100vw !important;
-  min-height: 100vh !important;
-  object-fit: cover !important;
-}
+  .video-background iframe {
+    width: 400vw !important;
+    height: 100vh !important;
+    transform: translateX(-200vw);
+    object-fit: cover !important;
+  }
 
 @media (min-aspect-ratio: 16/9) {
   .video-foreground {
@@ -157,5 +155,11 @@ body {
 @media all and (max-width: 500px) {
   .vid-info .acronym {
     display: none;
+  }
+}
+
+/* Crop and zoom the YouTube iframe on mobile */
+@media (max-width: 700px) {
+
   }
 }
