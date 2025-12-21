@@ -12,6 +12,8 @@ html {
     align-content: center;
     margin: auto;
     padding: 70px;
+    padding-left: 0px;
+    padding-right: 0px;
     color: rgb(251, 242, 227);
     max-width: fit-content;
   }
