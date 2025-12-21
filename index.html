@@ -47,10 +47,16 @@
 </div>
 
   <script src="scripts/player.js"></script>
-  <script>
+<script>
   const scrollContainer = document.querySelector('.albums-scroll');
 
   scrollContainer.addEventListener('wheel', (e) => {
+    const absX = Math.abs(e.deltaX);
+    const absY = Math.abs(e.deltaY);
+    
+    if (absX > absY) {
+      return;
+    }
     e.preventDefault();
     scrollContainer.scrollLeft += e.deltaY;
   }, { passive: false });
