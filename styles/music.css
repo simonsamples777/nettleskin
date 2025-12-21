@@ -1,169 +1,61 @@
-html {
-    font-size: 14px; 
-    font-size: 1vh;
-    
-    font-family: "Open Sans", sans-serif; 
-    background-color: black;
-    color: rgb(251, 242, 227);
-  }
+/* ---------- Global ---------- */
 
-  body{
-    text-align: center;
-    align-content: center;
-    margin: auto;
-    padding: 70px;
-    padding-left: 0px;
-    padding-right: 0px;
-    color: rgb(251, 242, 227);
-    max-width: fit-content;
-  }
-
-  h1 {
-    font-size: 72px;
-  }
-
-  div {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  a {
-    text-decoration: none !important;
-    color : rgb(251, 242, 227) !important;
-  }
-  
-  button {
-    background-color: black; /* Green */
-    color: rgb(251, 242, 227);
-    padding: 15px 32px;
-    text-align: center;
-    border: none;
-    font-size: 16px;
- }
-  button:hover {
-    background-color: rgb(35, 35, 35);
- }
- 
- .album {
-  width: 500px;
-  max-width: 90vw;
-  min-width: 250px;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 10px 40px 10px;
-  text-align: left;
+* {
   box-sizing: border-box;
-  border-radius: 12px;
-  padding: 20px;
+}
+
+html {
+  font-family: "Open Sans", sans-serif;
+  background-color: black;
+  color: rgb(251, 242, 227);
+  font-size: 1vh;
 }
 
 body {
+  margin: auto;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  padding-left: 0;
+  padding-right: 0;
+
+  color: rgb(251, 242, 227);
+  text-align: center;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+
+  max-width: fit-content;
 }
 
-/* stack albums vertically on small screens */
-@media (max-width: 900px) {
-  body {
-    flex-direction: column;
-    align-items: center;
-  }
-  .album {
-    margin: 10px 0;
-    width: 95vw;
-    max-width: 500px;
-  }
+/* ---------- Typography ---------- */
+
+h1 {
+  font-size: 72px;
 }
 
-#myVideo {
-  width: 100vw;
-   height: 100vh;
-   object-fit: cover;
-   position: fixed;
-   left: 0;
-   right: 0;
-   top: 0;
-   bottom: 0;
-   z-index: -1;
+a {
+  text-decoration: none !important;
+  color: rgb(251, 242, 227) !important;
 }
 
-.album img {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
+/* ---------- Buttons ---------- */
+
+button {
+  background-color: black;
+  color: rgb(251, 242, 227);
+  padding: 15px 32px;
+  border: none;
+  font-size: 16px;
+  text-align: center;
 }
 
-/* Video background */
-* {
-  box-sizing: border-box;
-}
-.video-background {
-  background: #000;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -99;
-}
-.video-foreground,
-.video-background iframe {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  width: 100vw;
-  height: 100vh;
-  min-width: 100vw;
-  min-height: 100vh;
-  z-index: -99;
-  pointer-events: none;
-  background: #000;
-  object-fit: cover; /* This will crop the video to fill the screen */
+button:hover {
+  background-color: rgb(35, 35, 35);
 }
 
-/* Remove any aspect-ratio hacks for video-foreground and iframe */
-  .video-background iframe {
-    width: 400vw !important;
-    height: 100vh !important;
-    transform: translateX(-200vw);
-    object-fit: cover !important;
-  }
-
-@media (min-aspect-ratio: 16/9) {
-  .video-foreground {
-    height: 100vh;
-    top: 0;
-  }
-}
-@media (max-aspect-ratio: 16/9) {
-  .video-foreground {
-    width: 100vw;
-    left: 0;
-  }
-}
-@media all and (max-width: 600px) {
-  .vid-info {
-    width: 50%;
-    padding: 0.5rem;
-  }
-  .vid-info h1 {
-    margin-bottom: 0.2rem;
-  }
-}
-@media all and (max-width: 500px) {
-  .vid-info .acronym {
-    display: none;
-  }
-}
-
-/* Crop and zoom the YouTube iframe on mobile */
-@media (max-width: 700px) {
-
-  }
+/* ---------- Albums Scroll ---------- */
 
 .albums-scroll {
   width: 100vw;
@@ -178,18 +70,129 @@ body {
   scroll-behavior: smooth;
   scroll-snap-type: none;
 
-  box-sizing: border-box;
   scrollbar-width: none;
 }
-
 
 .albums-scroll::-webkit-scrollbar {
   display: none;
 }
 
+/* ---------- Album Cards ---------- */
+
 .album {
   flex: 0 0 auto;
-  scroll-snap-align: start;
 
-  min-width: 520px;               /* slightly wider than image */
+  width: 500px;
+  min-width: 520px;
+  max-width: 90vw;
+
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+
+  text-align: left;
+  border-radius: 12px;
+}
+
+/* Album images */
+
+.album img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ---------- Embedded Video Album ---------- */
+
+.video-container {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.videoalbum {
+  flex: 0 0 auto;
+
+  height: 500px;
+  width: auto;
+  aspect-ratio: 16 / 9;
+
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+
+  text-align: left;
+  border-radius: 12px;
+}
+
+/* ---------- Background Video ---------- */
+
+.video-background {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: -99;
+}
+
+.video-foreground,
+.video-background iframe {
+  position: fixed;
+  top: 0;
+  left: 50%;
+
+  width: 100vw;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+
+  transform: translateX(-50%);
+  object-fit: cover;
+
+  pointer-events: none;
+  background: #000;
+  z-index: -99;
+}
+
+/* Overscan crop for YouTube background */
+
+.video-background iframe {
+  width: 400vw !important;
+  height: 100vh !important;
+  transform: translateX(-200vw);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .album {
+    width: 95vw;
+    max-width: 500px;
+    margin: 10px 0;
+  }
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .video-foreground {
+    height: 100vh;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .video-foreground {
+    width: 100vw;
+    left: 0;
+    transform: none;
+  }
 }
