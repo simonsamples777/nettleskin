@@ -10,7 +10,8 @@
 </head>
 
 <body>
-  <div class="video-background">
+  <div id="drag-capture"></div>
+ <div class="video-background">
    <div class="video-foreground">
     <iframe
       src="https://www.youtube.com/embed/eL6g3Owk0F8?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1"
@@ -21,7 +22,7 @@
       tabindex="-1"
     ></iframe>
     </div>
-  </div>
+  </div>//
 
 <div class="albums-scroll">
   <div class="videoalbum">
@@ -34,17 +35,10 @@
     <p id="text21">utan risk för straff mister exil sin charm.<br>sandens skönhet, formlöshet<br>
 odödlighet genom ständig förändring<br>avvisar allt liv som strävar att växa<br>förälskelse i träldom<br>
 </p>
-<p>kulminationen av tiden jag tillbringade på gotlands tonsättarskola. <br>två år av desperation och att slå mitt huvud mot väggen. de bästa åren i mitt liv, tror jag, men jag vet inte om det bara är någon sorts stockholmssyndrom, sunk cost fallacy. eller dylikt.
-  <br>jag tror det är i den desperationen som jag fann någon sorts tröst och förundran i boken 砂の女 av 安部公房. en karaktär i en så betydligt 
-  mer ödesdigert desperat situation än mig kom till undsättning och gav mig form.<br> jag minns tydligt stunden då de lättade upp. jag satt på
-ett bibliotek i chuo city i tokyo, december 2024. ett fint bibliotek, med många våningar med terasser och kaféer. jag hade en giorgio de chirico beprydd mapp med hundratals
-idéskisser med mig. och jag var så ihopbruten över att hitta ett sätt att utveckla idéerna som ger musik till ivo och jörgen. kanske sökte jag mig till bibliotek just för att av social kotym hindras från att gnälla och gny. 
-jag läste 砂の女 i prokrastingering. vid stress spelar det ingen roll hur många skisser man har. det krävs tålamod för att utveckla. japanskan i boken var så svår.
-ämnet var så mörkt. allt sjunker under sanden. <br>något fick mig att inse att det är tillåtet för styckets utveckling att följa junpeis karaktärsutveckling. jag blev upplåst.
-är det estetisk kärna? kärnan är inte min, jag lånar den. tolkning och respons till någon annans? när kärnan var avgränsad kunde jag skriva väldigt fort.
-det gick enkelt att omformulera och redigera alla skisser när det var så tydligt i vilken bild de skulle passa in. jag såg konserten framför mig.
-jag kunde höra ivo och jörgen äntligen inuti mig. <br> 
-jag nådde gränsen, på många sätt. i notbilden syns det precis vad jag begriper och inte, på så sätt om något ett lyckat dokument av mitt medvetande. det finns system och frenetisk obekvämhet. allt annat saknas.</p>
+<p> kulminationen av tiden jag tillbringade på gotlands tonsättarskola. <br>två år av desperation och att slå mitt huvud mot väggen. de bästa åren i mitt liv, tror jag, men jag vet inte om det bara är någon sorts stockholmssyndrom, sömnparalys, sunk cost fallacy eller dylikt.
+  <br>
+jag nådde gränsen, på många sätt. i notbilden syns det precis vad jag begriper och inte, på så sätt om något ett lyckat dokument av medvetande. det finns system och frenetisk obekvämhet. allt annat saknas. <br>till slut kunde jag höra de två gyllene bröderna, ivo och jörgen, inuti mig äntligen <br> 
+
   </div>
 
   <div class="album">
@@ -89,6 +83,8 @@ jag nådde gränsen, på många sätt. i notbilden syns det precis vad jag begri
 
   <script src="scripts/player.js"></script>
 <script>
+  
+  console.log("INLINE SCRIPT RUNNING");
   const scrollContainer = document.querySelector('.albums-scroll');
 
   scrollContainer.addEventListener('wheel', (e) => {

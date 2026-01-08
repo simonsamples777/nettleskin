@@ -11,6 +11,15 @@ html {
   font-size: 1vh;
 }
 
+html, body {
+  cursor: grab;
+}
+
+html.dragging, body.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
 body {
   margin: auto;
   padding-top: 70px;
@@ -62,25 +71,54 @@ button:hover {
 
 /* ---------- Albums Scroll ---------- */
 
-.albums-scroll {
-  width: 100vw;
-  max-width: 100vw;
 
+.albums-scroll {
   display: flex;
+  flex-direction: row; /* horizontal only */
   gap: 4rem;
 
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
 
-  scroll-behavior: smooth;
-  scroll-snap-type: none;
+  min-height: 200vh; /* allow vertical scroll */
+  max-height: none;  /* let it grow with content */
+  
+  touch-action: none; /* for drag scrolling */
+  cursor: grab;
+}
 
-  scrollbar-width: none;
+.album {
+  flex: 0 0 auto;
+  width: 500px;
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+}
+
+.albums-scroll.dragging {
+  cursor: grabbing;
+}
+
+.albums-scroll.dragging iframe {
+  pointer-events: none; /* allow dragging over iframes */
 }
 
 .albums-scroll::-webkit-scrollbar {
   display: none;
 }
+
+#drag-capture {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: transparent;
+  cursor: grab;
+  pointer-events: auto;
+}
+
+#drag-capture.dragging {
+  cursor: grabbing;
+}
+
 
 /* ---------- Album Cards ---------- */
 
