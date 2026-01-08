@@ -1,4 +1,3 @@
-console.log("PLAYER.JS LOADED");
 
 
 const textOptions = [

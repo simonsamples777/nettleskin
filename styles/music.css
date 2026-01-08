@@ -29,7 +29,7 @@ body {
   padding-bottom: 70px;
   padding-left: 0;
   padding-right: 0;
-
+  
   color: rgb(251, 242, 227);
   text-align: center;
 
@@ -287,7 +287,16 @@ button:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transform: scale(0.7);
+    transform-origin: top left;
+    transition: transform 0.05s ease-out;
     min-height: 100vh; /* ensure it fills the screen vertically */
     object-fit: cover;
   }
+  #page-wrapper {
+    transform: scale(0.7);       /* initial zoom out */
+    transform-origin: top left;
+    transition: transform 0.05s ease-out;
+  }
 }
+
