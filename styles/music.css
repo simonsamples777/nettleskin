@@ -13,6 +13,9 @@ html {
 
 html, body {
   cursor: grab;
+  overflow-x: auto;
+  overflow-y: auto;
+  touch-action: pan-x pan-y; /* allow drag scrolling */
 }
 
 html.dragging, body.dragging {
@@ -36,6 +39,7 @@ body {
   align-items: flex-start;
 
   max-width: fit-content;
+  
 }
 
 /* ---------- Typography ---------- */
@@ -113,10 +117,13 @@ button:hover {
   background: transparent;
   cursor: grab;
   pointer-events: auto;
+  touch-action: none;
+
 }
 
 #drag-capture.dragging {
   cursor: grabbing;
+  
 }
 
 
@@ -237,5 +244,50 @@ button:hover {
     width: 100vw;
     left: 0;
     transform: none;
+  }
+}
+
+/* ---------- Mobile Layout ---------- */
+@media (max-width: 900px) {
+   p, button, span {
+    font-size: 3vw;
+  }
+
+  /* Keep albums smaller relative to background */
+  .albums-scroll {
+    gap: 2rem;
+    padding: 20px 0;
+  }
+
+  .album, .videoalbum {
+    width: 80vw;
+    min-width: 0;
+    max-width: 90vw;
+    padding: 15px;
+    margin: 0 10px 30px 10px;
+  }
+
+  .album img {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Make touch scroll natural */
+  body {
+    padding: 0;
+  }
+}
+
+/* ---------- Background video adjustments for mobile ---------- */
+@media (max-width: 900px) {
+  .video-foreground,
+  .video-background iframe {
+    width: 100vw;
+    height: calc(100vw * 9 / 16); /* 16:9 ratio based on width */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 100vh; /* ensure it fills the screen vertically */
+    object-fit: cover;
   }
 }

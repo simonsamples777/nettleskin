@@ -40,8 +40,11 @@ let dragging = false;
 let startX, startY;
 let startScrollLeft, startScrollTop;
 
+
 capture.addEventListener('mousedown', (e) => {
   if (e.button !== 0) return; // left click only
+  if (e.target.closest('button, a, iframe, audio')) return; // ❌ Skip interactive elements
+
   dragging = true;
   startX = e.clientX;
   startY = e.clientY;
@@ -72,3 +75,34 @@ window.addEventListener('mousemove', (e) => {
 });
 
 console.log("JS is running");
+
+// Mobile touch support
+capture.addEventListener('touchstart', (e) => {
+  dragging = true;
+  const touch = e.touches[0];
+  startX = touch.clientX;
+  startY = touch.clientY;
+  startScrollLeft = scroller.scrollLeft;
+  startScrollTop = window.scrollY;
+
+  capture.classList.add('dragging');
+  scroller.classList.add('dragging');
+});
+
+window.addEventListener('touchend', () => {
+  dragging = false;
+  capture.classList.remove('dragging');
+  scroller.classList.remove('dragging');
+});
+
+window.addEventListener('touchmove', (e) => {
+  if (!dragging) return;
+  const touch = e.touches[0];
+  const dx = touch.clientX - startX;
+  const dy = touch.clientY - startY;
+
+  scroller.scrollLeft = startScrollLeft - dx;
+  window.scrollTo(window.scrollX, startScrollTop - dy);
+
+  e.preventDefault(); // prevent default touch scroll
+}, { passive: false });
