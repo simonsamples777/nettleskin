@@ -11,13 +11,25 @@ html {
   font-size: 1vh;
 }
 
+html, body {
+  cursor: grab;
+  overflow-x: auto;
+  overflow-y: auto;
+  touch-action: pan-x pan-y; /* allow drag scrolling */
+}
+
+html.dragging, body.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
 body {
   margin: auto;
   padding-top: 70px;
   padding-bottom: 70px;
   padding-left: 0;
   padding-right: 0;
-
+  
   color: rgb(251, 242, 227);
   text-align: center;
 
@@ -27,6 +39,25 @@ body {
   align-items: flex-start;
 
   max-width: fit-content;
+  
+}
+
+
+input[type="text"] {
+  background-color: black;
+  color: rgb(251, 242, 227); /* match your site's text color */
+  border: 0px solid rgb(251, 242, 227);
+  padding: 5px 10px;
+  font-size: 1em;
+  border-radius: 0px;
+  width: 80px; /* adjust width as needed */
+  text-align: left;
+}
+
+/* Optional: remove blue outline on focus */
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 3px rgb(251, 242, 227);
 }
 
 /* ---------- Typography ---------- */
@@ -38,6 +69,15 @@ h1 {
 a {
   text-decoration: none !important;
   color: rgb(251, 242, 227) !important;
+  background-color: black;
+}
+
+p {
+  background-color: black;
+}
+
+.suna { 
+  width: 500px;
 }
 
 /* ---------- Buttons ---------- */
@@ -57,25 +97,56 @@ button:hover {
 
 /* ---------- Albums Scroll ---------- */
 
-.albums-scroll {
-  width: 100vw;
-  max-width: 100vw;
 
+.albums-scroll {
   display: flex;
+  flex-direction: row; /* horizontal only */
   gap: 4rem;
 
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
 
-  scroll-behavior: smooth;
-  scroll-snap-type: none;
+  min-height: 200vh; /* allow vertical scroll */
+  max-height: none;  /* let it grow with content */
+  
+  touch-action: none; /* for drag scrolling */
+  cursor: grab;
+}
 
-  scrollbar-width: none;
+.album {
+  flex: 0 0 auto;
+  width: 500px;
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+}
+
+.albums-scroll.dragging {
+  cursor: grabbing;
+}
+
+.albums-scroll.dragging iframe {
+  pointer-events: none; /* allow dragging over iframes */
 }
 
 .albums-scroll::-webkit-scrollbar {
   display: none;
 }
+
+#drag-capture {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: transparent;
+  pointer-events: none; /* ✅ allow clicks */
+  cursor: grab;
+}
+
+
+#drag-capture.dragging {
+  cursor: grabbing;
+  
+}
+
 
 /* ---------- Album Cards ---------- */
 
@@ -196,3 +267,57 @@ button:hover {
     transform: none;
   }
 }
+
+/* ---------- Mobile Layout ---------- */
+@media (max-width: 900px) {
+   p, button, span {
+    font-size: 3vw;
+  }
+
+  /* Keep albums smaller relative to background */
+  .albums-scroll {
+    gap: 2rem;
+    padding: 20px 0;
+  }
+
+  .album, .videoalbum {
+    width: 80vw;
+    min-width: 0;
+    max-width: 90vw;
+    padding: 15px;
+    margin: 0 10px 30px 10px;
+  }
+
+  .album img {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Make touch scroll natural */
+  body {
+    padding: 0;
+  }
+}
+
+/* ---------- Background video adjustments for mobile ---------- */
+@media (max-width: 900px) {
+  .video-foreground,
+  .video-background iframe {
+    width: 100vw;
+    height: calc(100vw * 9 / 16); /* 16:9 ratio based on width */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: scale(0.7);
+    transform-origin: top left;
+    transition: transform 0.05s ease-out;
+    min-height: 100vh; /* ensure it fills the screen vertically */
+    object-fit: cover;
+  }
+  #page-wrapper {
+    transform: scale(0.7);       /* initial zoom out */
+    transform-origin: top left;
+    transition: transform 0.05s ease-out;
+  }
+}
+
