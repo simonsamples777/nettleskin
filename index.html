@@ -32,18 +32,18 @@
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
       allowfullscreen></iframe>
     </div>
-    <p id="text21">utan risk för straff mister exil sin charm.<br>sandens skönhet, formlöshet<br>
+    <p id="text21" class="suna">utan risk för straff mister exil sin charm.<br>sandens skönhet, formlöshet<br>
 odödlighet genom ständig förändring<br>avvisar allt liv som strävar att växa<br>förälskelse i träldom<br>
 </p>
-<p> kulminationen av tiden jag tillbringade på gotlands tonsättarskola. <br>två år av desperation och att slå mitt huvud mot väggen. de bästa åren i mitt liv, tror jag, men jag vet inte om det bara är någon sorts stockholmssyndrom, sömnparalys, sunk cost fallacy eller dylikt.
+<p class="suna"> kulminationen av tiden jag tillbringade på gotlands tonsättarskola. <br>två år av desperation och att slå mitt huvud mot väggen. de bästa åren i mitt liv, tror jag, men jag vet inte om det bara är någon sorts stockholmssyndrom, sömnparalys, sunk cost fallacy eller dylikt.
   <br>
 jag nådde gränsen, på många sätt. i notbilden syns det precis vad jag begriper och inte, på så sätt om något ett lyckat dokument av medvetande. det finns system och frenetisk obekvämhet. allt annat saknas. <br>till slut kunde jag höra de två gyllene bröderna, ivo och jörgen, inuti mig äntligen <br> 
-
+</p>
   </div>
 
   <div class="album">
     <button onclick="toggleAudio('audio2', this)">氷河</button>
-    <span id="time2">0:00 / 0:00</span>
+    <input type="text" id="time2" />
     <audio id="audio2" src="audio/ns2.mp3"></audio>
     <a id="imageLink" href="https://nettleskin.bandcamp.com/album/nettle-skin-2" target="_blank" rel="noopener noreferrer"><img src="images/album2.webp" alt="nettle skin 2" width="500px" /></a> 
     <a id="textLink" href="https://www.youtube.com/watch?v=On-97XOUOPo&pp=0gcJCdQJAYcqIYzv">
@@ -62,12 +62,18 @@ jag nådde gränsen, på många sätt. i notbilden syns det precis vad jag begri
 
   <div class="album">
     <button onclick="toggleAudio('audio1', this)">傷</button>
-    <span id="time1">0:00 / 0:00</span>
-    <audio id="audio1" src="audio/ns1.mp3"></audio>
-    <a id="imageLink" href="https://nettleskin.bandcamp.com/album/nettle-skin" target="_blank" rel="noopener noreferrer"><img src="images/album1.webp" alt="nettle skin" width="500px" /></a> 
-    <a id="textLink1" href="https://youtu.be/LAj3JgCE97c">
-        <p id="text1">Korsfästelsen skulle äga rum utanför tullhuset, precis vid universitetet. Kände ingen rädsla under hela processen. Dödstyst, som under glas. Klädd som ett litet barn i ljusblått och med vit peruk. Det kan ha haft något att göra med såpbubblor. Fann säkerhet med dessa tre bevis: de skulle bevisa min oskuld vid rättegången. Jag gick ner till bergen för att öva på att glida. Jag kan hoppa väldigt högt, och när jag väl är uppe så har jag lärt mig att hålla altituden någorlunda bra. Men jag kan inte ta mig högre upp än jag är, förutom om det är mycket stark vind. Nerförsbackar är perfekta ställen att glida. Jag börjar hoppa och glider förbi invånarna. Två andra flickor ser mig glida och inser för första gången möjligheten att de också kan glida. Samtalar med den ena. Plötsligt flöt jag uppåt, emot geometriska figurer. Vindens visslande precis som strupsång. 
-        Till slut liggandes i en säng med ett hundratal människor som alla kramar mig. Jag måste inte längre.</p> </a>
+  <input type="text" id="time1" />
+
+  <audio id="audio1" src="audio/ns1.mp3"></audio>
+
+  <a id="imageLink" href="https://nettleskin.bandcamp.com/album/nettle-skin" target="_blank" rel="noopener noreferrer">
+    <img src="images/album1.webp" alt="nettle skin" width="500px" />
+  </a> 
+
+  <a id="textLink1" href="https://youtu.be/LAj3JgCE97c">
+    <p id="text1">Korsfästelsen skulle äga rum utanför tullhuset, precis vid universitetet. Kände ingen rädsla under hela processen. Dödstyst, som under glas. Klädd som ett litet barn i ljusblått och med vit peruk. Det kan ha haft något att göra med såpbubblor. Fann säkerhet med dessa tre bevis: de skulle bevisa min oskuld vid rättegången. Jag gick ner till bergen för att öva på att glida. Jag kan hoppa väldigt högt, och när jag väl är uppe så har jag lärt mig att hålla altituden någorlunda bra. Men jag kan inte ta mig högre upp än jag är, förutom om det är mycket stark vind. Nerförsbackar är perfekta ställen att glida. Jag börjar hoppa och glider förbi invånarna. Två andra flickor ser mig glida och inser för första gången möjligheten att de också kan glida. Samtalar med den ena. Plötsligt flöt jag uppåt, emot geometriska figurer. Vindens visslande precis som strupsång. 
+        Till slut liggandes i en säng med ett hundratal människor som alla kramar mig. Jag måste inte längre.</p>
+  </a>
         <div class="video-container">
         <iframe width="100%" src="https://www.youtube.com/embed/LAj3JgCE97c?si=gWCMR3oJcj-n2rG-&amp;controls=0" frameborder="0" 
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -81,7 +87,9 @@ jag nådde gränsen, på många sätt. i notbilden syns det precis vad jag begri
   </div>
 </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
   <script src="scripts/player.js"></script>
+
 <script>
   
   console.log("INLINE SCRIPT RUNNING");

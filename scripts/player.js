@@ -1,44 +1,76 @@
 console.log("PLAYER.JS LOADED");
 
-// ---------------- Audio Player ----------------
+
+
+// ---------------- Audio Utilities ----------------
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
   return m + ":" + (s < 10 ? "0" : "") + s;
 }
 
-function updateTime(audioId, timeId) {
-  const audio = document.getElementById(audioId);
-  const timeSpan = document.getElementById(timeId);
-  timeSpan.textContent = formatTime(audio.currentTime) + " / " + formatTime(audio.duration || 0);
+function parseTime(str) {
+  const parts = str.split(":").map(Number);
+  if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+    return parts[0] * 60 + parts[1];
+  }
+  return 0;
 }
 
+// ---------------- Play/Pause ----------------
 function toggleAudio(audioId, btn) {
   const audio = document.getElementById(audioId);
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
+  if (!audio) return;
+
+  if (audio.paused) audio.play();
+  else audio.pause();
 }
 
-const audio1 = document.getElementById('audio1');
-const audio2 = document.getElementById('audio2');
+// ---------------- Audio Initialization ----------------
+const audios = [
+  { id: "audio1", inputId: "time1" },
+  { id: "audio2", inputId: "time2" }
+];
 
-audio1.addEventListener('timeupdate', () => updateTime('audio1', 'time1'));
-audio1.addEventListener('loadedmetadata', () => updateTime('audio1', 'time1'));
-audio2.addEventListener('timeupdate', () => updateTime('audio2', 'time2'));
-audio2.addEventListener('loadedmetadata', () => updateTime('audio2', 'time2'));
+audios.forEach(({ id, inputId }) => {
+  const audio = document.getElementById(id);
+  const input = document.getElementById(inputId);
+  if (!audio || !input) return;
 
+  // Wait for metadata to load to show full duration
+  audio.addEventListener("loadedmetadata", () => {
+    input.value = `0:00 / ${formatTime(audio.duration)}`;
+  });
+
+  // Update live current time while playing
+  audio.addEventListener("timeupdate", () => {
+    const parts = input.value.split("/");
+    const durationPart = parts[1] ? parts[1].trim() : formatTime(audio.duration);
+    input.value = `${formatTime(audio.currentTime)} / ${durationPart}`;
+  });
+
+  // Make input editable: user can type new current time
+  input.addEventListener("change", () => {
+    const parts = input.value.split("/");
+    const newTime = parseTime(parts[0].trim());
+    if (!isNaN(newTime) && newTime <= audio.duration) {
+      audio.currentTime = newTime;
+    }
+  });
+});
+ 
+// ---------------- Drag Scroll ----------------
 // ---------------- Drag Scroll ----------------
 const capture = document.getElementById('drag-capture');
 const scroller = document.querySelector('.albums-scroll');
-const bodyWrapper = document.body; // for pinch zoom
+const bodyWrapper = document.body;
 
 let dragging = false;
 let startX = 0, startY = 0;
 let startScrollLeft = 0, startScrollTop = 0;
 let moved = false;
+
+const DRAG_THRESHOLD = 6;
 
 // Pinch zoom
 let initialDistance = 0;
@@ -51,12 +83,11 @@ function getDistance(touches) {
 }
 
 function applyScale(scale) {
-  currentScale = Math.max(0.5, Math.min(scale, 2)); // clamp 0.5x - 2x
+  currentScale = Math.max(0.5, Math.min(scale, 2));
   bodyWrapper.style.transform = `scale(${currentScale})`;
   bodyWrapper.style.transformOrigin = 'top left';
 }
 
-// Drag helpers
 function startDrag(x, y) {
   dragging = true;
   moved = false;
@@ -64,17 +95,21 @@ function startDrag(x, y) {
   startY = y;
   startScrollLeft = scroller.scrollLeft;
   startScrollTop = window.scrollY;
-
-  capture.classList.add('dragging');
-  scroller.classList.add('dragging');
 }
 
 function moveDrag(x, y) {
   if (!dragging) return;
+
   const dx = x - startX;
   const dy = y - startY;
 
-  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+  if (!moved && (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD)) {
+    moved = true;
+    capture.style.pointerEvents = 'auto';
+    document.body.classList.add('dragging');
+  }
+
+  if (!moved) return;
 
   scroller.scrollLeft = startScrollLeft - dx;
   window.scrollTo(window.scrollX, startScrollTop - dy);
@@ -82,43 +117,44 @@ function moveDrag(x, y) {
 
 function stopDrag() {
   dragging = false;
-  capture.classList.remove('dragging');
-  scroller.classList.remove('dragging');
+  moved = false;
+  capture.style.pointerEvents = 'none';
+  document.body.classList.remove('dragging');
 }
 
-// ---------------- Mouse Events ----------------
-capture.addEventListener('mousedown', (e) => {
+// ---------------- Mouse ----------------
+document.addEventListener('mousedown', (e) => {
   if (e.button !== 0) return;
-  if (e.target.closest('button, a, iframe, audio')) return;
-  e.preventDefault();
   startDrag(e.clientX, e.clientY);
 });
 
-window.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
-window.addEventListener('mouseup', stopDrag);
+document.addEventListener('mousemove', (e) => {
+  moveDrag(e.clientX, e.clientY);
+});
 
-// ---------------- Touch Events ----------------
-capture.addEventListener('touchstart', (e) => {
+document.addEventListener('mouseup', stopDrag);
+
+// ---------------- Touch ----------------
+document.addEventListener('touchstart', (e) => {
   if (e.touches.length === 2) {
     initialDistance = getDistance(e.touches);
   } else if (e.touches.length === 1) {
-    const touch = e.touches[0];
-    if (touch.target.closest('button, a, iframe, audio')) return;
-    startDrag(touch.clientX, touch.clientY);
+    const t = e.touches[0];
+    startDrag(t.clientX, t.clientY);
   }
 });
 
-window.addEventListener('touchmove', (e) => {
+document.addEventListener('touchmove', (e) => {
   if (e.touches.length === 2) {
     const newDistance = getDistance(e.touches);
     const scale = (newDistance / initialDistance) * currentScale;
     applyScale(scale);
     e.preventDefault();
   } else if (e.touches.length === 1) {
-    const touch = e.touches[0];
-    moveDrag(touch.clientX, touch.clientY);
+    const t = e.touches[0];
+    moveDrag(t.clientX, t.clientY);
   }
 }, { passive: false });
 
-window.addEventListener('touchend', stopDrag);
+document.addEventListener('touchend', stopDrag);
 

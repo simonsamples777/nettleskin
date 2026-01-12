@@ -42,6 +42,24 @@ body {
   
 }
 
+
+input[type="text"] {
+  background-color: black;
+  color: rgb(251, 242, 227); /* match your site's text color */
+  border: 0px solid rgb(251, 242, 227);
+  padding: 5px 10px;
+  font-size: 1em;
+  border-radius: 0px;
+  width: 80px; /* adjust width as needed */
+  text-align: left;
+}
+
+/* Optional: remove blue outline on focus */
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 3px rgb(251, 242, 227);
+}
+
 /* ---------- Typography ---------- */
 
 h1 {
@@ -56,6 +74,10 @@ a {
 
 p {
   background-color: black;
+}
+
+.suna { 
+  width: 500px;
 }
 
 /* ---------- Buttons ---------- */
@@ -115,11 +137,10 @@ button:hover {
   inset: 0;
   z-index: 999999;
   background: transparent;
+  pointer-events: none; /* ✅ allow clicks */
   cursor: grab;
-  pointer-events: auto;
-  touch-action: none;
-
 }
+
 
 #drag-capture.dragging {
   cursor: grabbing;
