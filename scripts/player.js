@@ -1,6 +1,6 @@
 console.log("PLAYER.JS LOADED");
 
-
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 // ---------------- Audio Utilities ----------------
 function formatTime(seconds) {
@@ -72,21 +72,9 @@ let moved = false;
 
 const DRAG_THRESHOLD = 6;
 
-// Pinch zoom
-let initialDistance = 0;
-let currentScale = 1;
 
-function getDistance(touches) {
-  const dx = touches[0].clientX - touches[1].clientX;
-  const dy = touches[0].clientY - touches[1].clientY;
-  return Math.sqrt(dx*dx + dy*dy);
-}
 
-function applyScale(scale) {
-  currentScale = Math.max(0.5, Math.min(scale, 2));
-  bodyWrapper.style.transform = `scale(${currentScale})`;
-  bodyWrapper.style.transformOrigin = 'top left';
-}
+
 
 function startDrag(x, y) {
   dragging = true;
@@ -123,38 +111,21 @@ function stopDrag() {
 }
 
 // ---------------- Mouse ----------------
-document.addEventListener('mousedown', (e) => {
-  if (e.button !== 0) return;
-  startDrag(e.clientX, e.clientY);
-});
 
-document.addEventListener('mousemove', (e) => {
-  moveDrag(e.clientX, e.clientY);
-});
+if (!isTouchDevice) {
+  document.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    startDrag(e.clientX, e.clientY);
+  });
 
-document.addEventListener('mouseup', stopDrag);
+  document.addEventListener('mousemove', (e) => {
+    moveDrag(e.clientX, e.clientY);
+  });
+
+  document.addEventListener('mouseup', stopDrag);
+}
+
 
 // ---------------- Touch ----------------
-document.addEventListener('touchstart', (e) => {
-  if (e.touches.length === 2) {
-    initialDistance = getDistance(e.touches);
-  } else if (e.touches.length === 1) {
-    const t = e.touches[0];
-    startDrag(t.clientX, t.clientY);
-  }
-});
 
-document.addEventListener('touchmove', (e) => {
-  if (e.touches.length === 2) {
-    const newDistance = getDistance(e.touches);
-    const scale = (newDistance / initialDistance) * currentScale;
-    applyScale(scale);
-    e.preventDefault();
-  } else if (e.touches.length === 1) {
-    const t = e.touches[0];
-    moveDrag(t.clientX, t.clientY);
-  }
-}, { passive: false });
-
-document.addEventListener('touchend', stopDrag);
 
