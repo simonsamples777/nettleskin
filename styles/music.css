@@ -80,6 +80,8 @@ p {
   width: 500px;
 }
 
+
+
 /* ---------- Buttons ---------- */
 
 button {
@@ -116,6 +118,17 @@ button:hover {
   width: 500px;
   margin: 0 10px 40px 10px;
   padding: 20px;
+}
+
+.pom {
+  flex: 0 0 auto;
+  width: fit-content;
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+}
+.datumheader{
+  font-size: 1.5vh;
+  margin-bottom: 10px;
 }
 
 .albums-scroll.dragging {
