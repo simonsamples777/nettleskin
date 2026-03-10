@@ -29,7 +29,8 @@ function toggleAudio(audioId, btn) {
 // ---------------- Audio Initialization ----------------
 const audios = [
   { id: "audio1", inputId: "time1" },
-  { id: "audio2", inputId: "time2" }
+  { id: "audio2", inputId: "time2" },
+  { id: "audio3", inputId: "time3" }
 ];
 
 audios.forEach(({ id, inputId }) => {
