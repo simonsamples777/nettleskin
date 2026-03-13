@@ -24,14 +24,9 @@ html.dragging, body.dragging {
 }
 
 body {
-  margin: auto;
+margin: auto;
   padding-top: 70px;
   padding-bottom: 70px;
-  padding-left: 0;
-  padding-right: 0;
-  
-  color: rgb(251, 242, 227);
-  text-align: center;
 
   display: flex;
   flex-direction: row;
@@ -39,6 +34,11 @@ body {
   align-items: flex-start;
 
   max-width: fit-content;
+  padding-left: 0;
+  padding-right: 0;
+  
+  color: rgb(251, 242, 227);
+  text-align: center;
   
 }
 
@@ -120,10 +120,16 @@ button:hover {
 }
 
 .album {
-  flex: 0 0 auto;
+  flex: 0 0 500px;
   width: 500px;
   margin: 0 10px 40px 10px;
   padding: 20px;
+  flex: 0 0 500px;
+  max-width: 92vw;
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+  text-align: left;
+  border-radius: 12px;
 }
 
 .pom {
@@ -167,20 +173,6 @@ button:hover {
 
 /* ---------- Album Cards ---------- */
 
-.album {
-  flex: 0 0 auto;
-
-  width: 500px;
-  min-width: 520px;
-  max-width: 90vw;
-
-  margin: 0 10px 40px 10px;
-  padding: 20px;
-
-  text-align: left;
-  border-radius: 12px;
-}
-
 /* Album images */
 
 .album img {
@@ -207,11 +199,15 @@ button:hover {
 }
 
 .videoalbum {
+    max-width: none;
   flex: 0 0 auto;
 
   height: 500px;
   width: auto;
   aspect-ratio: 16 / 9;
+
+  flex: 0 0 auto;
+  width: calc(500px * 16 / 9);
 
   margin: 0 10px 40px 10px;
   padding: 20px;
@@ -260,14 +256,17 @@ button:hover {
 
 @media (max-width: 900px) {
   body {
-    flex-direction: column;
-    align-items: center;
+    display: block;
+    margin: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 
   .album {
-    width: 95vw;
-    max-width: 500px;
     margin: 10px 0;
+    flex: 0 0 92vw;   /* key change */
+    width: 92vw;
+    max-width: none;
   }
 }
 
@@ -298,17 +297,38 @@ button:hover {
   }
 
   .album, .videoalbum {
-    width: 80vw;
     min-width: 0;
-    max-width: 90vw;
     padding: 15px;
     margin: 0 10px 30px 10px;
+    flex: 0 0 92vw;   /* key change */
+    width: 92vw;
+    max-width: none;
   }
 
   .album img {
     width: 100%;
-    max-width: 100%;
+  height: auto;
+  max-width: none;
   }
+
+  .album p,
+.videoalbum p,
+.pomtext {
+  font-size: 2.3vw;
+  line-height: 1.4;
+}
+
+.videoalbum {
+    flex: 0 0 auto;
+    width: calc(92vw * 16 / 9); /* video width */
+    max-width: none;
+  }
+
+  .videoalbum .video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  
 
   /* Make touch scroll natural */
   body {
