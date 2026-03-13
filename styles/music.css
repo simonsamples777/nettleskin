@@ -97,6 +97,12 @@ button:hover {
   background-color: rgb(35, 35, 35);
 }
 
+.mailbtn{
+  text-align: left;
+  font-size: 11px;
+  padding: 10px 2px;
+ }
+
 /* ---------- Albums Scroll ---------- */
 
 
@@ -327,4 +333,5 @@ button:hover {
   }
   
 }
+
 
