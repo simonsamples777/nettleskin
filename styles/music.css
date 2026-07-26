@@ -124,12 +124,28 @@ button:hover {
   width: 500px;
   margin: 0 10px 40px 10px;
   padding: 20px;
-  flex: 0 0 500px;
   max-width: 92vw;
   margin: 0 10px 40px 10px;
   padding: 20px;
   text-align: left;
   border-radius: 12px;
+}
+
+.nikki {
+  flex: 0 0 250px;
+  width: 250px;
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+  max-width: 46vw;
+  margin: 0 10px 40px 10px;
+  padding: 20px;
+  text-align: left;
+  border-radius: 12px;
+}
+
+.nikki img {
+  width: 100%;
+  object-fit: cover;
 }
 
 .pom {
