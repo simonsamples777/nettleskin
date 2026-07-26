@@ -367,6 +367,8 @@ button:hover {
     min-height: 100vh; /* ensure it fills the screen vertically */
     object-fit: cover;
   }
+  body {
+    zoom: 0.16;
+  }
   
 }
-
