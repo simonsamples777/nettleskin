@@ -15,7 +15,7 @@ html, body {
   cursor: grab;
   overflow-x: auto;
   overflow-y: auto;
-  touch-action: pan-x pan-y; /* allow drag scrolling */
+  touch-action: pan-x pan-y pinch-zoom; /* allow drag scrolling */
 }
 
 html.dragging, body.dragging {
@@ -352,8 +352,28 @@ button:hover {
   }
 }
 
+.mobile-camera {
+  transform-origin: top left;
+}
+
+/* Desktop: wrapper must behave as if it isn't there */
+@media (min-width: 901px) {
+  .mobile-camera {
+    display: contents;
+  }
+}
+
 /* ---------- Background video adjustments for mobile ---------- */
 @media (max-width: 900px) {
+   .mobile-camera {
+    display: block;
+    transform: scale(0.6);
+    transform-origin: top left;
+    width: 166.6667%;
+  }
+   html, body {
+    touch-action: pan-x pan-y pinch-zoom;
+  }
   .video-foreground,
   .video-background iframe {
     width: 100vw;
@@ -367,8 +387,4 @@ button:hover {
     min-height: 100vh; /* ensure it fills the screen vertically */
     object-fit: cover;
   }
-  body {
-    zoom: 0.16;
-  }
-  
 }
