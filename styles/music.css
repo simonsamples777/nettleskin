@@ -232,7 +232,7 @@ button:hover {
   border-radius: 12px;
 }
 
-/* ---------- Background Video ---------- */
+/*  Background Video */
 
 .video-background {
   position: fixed;
@@ -268,7 +268,7 @@ button:hover {
   transform: translateX(-200vw);
 }
 
-/* ---------- Responsive ---------- */
+/*  Responsive */
 
 @media (max-width: 900px) {
   body {
@@ -300,7 +300,7 @@ button:hover {
   }
 }
 
-/* ---------- Mobile Layout ---------- */
+/* Mobile Layout */
 @media (max-width: 900px) {
    p, button, span {
     font-size: 3vw;
@@ -363,7 +363,7 @@ button:hover {
   }
 }
 
-/* ---------- Background video adjustments for mobile ---------- */
+/* Background video adjustments for mobile */
 @media (max-width: 900px) {
    .mobile-camera {
     display: block;
@@ -384,7 +384,11 @@ button:hover {
     transform: scale(0.7);
     transform-origin: top left;
     transition: transform 0.05s ease-out;
-    min-height: 100vh; /* ensure it fills the screen vertically */
+    min-height: 100vh; 
     object-fit: cover;
   }
+
+
+  /* allanyheter varldskriget grey on hover */
+ 
 }
